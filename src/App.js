@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import './App.css'
+import Header from "./components/Header/Header";
+import Balance from "./components/Balance/Balance";
+import IncomeExpense from "./components/IncomeExpense/IncomeExpense";
+import TransactionList from "./components/TransactionList/TransactionList";
+import AddTransaction from "./components/AddTransaction/AddTransaction";
+import {GlobalProvider} from "./context/GlobalState";
+import AddTransactionButton from "./components/AddTransactionButton/AddTransactionButton";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [showAddTransaction, setShowAddTransaction] = useState(false);
+
+    const showTransactionHandler = () => {
+        setShowAddTransaction(!showAddTransaction)
+    }
+    return (
+        <GlobalProvider>
+            <Header/>
+            <div className={'container'}>
+                <Balance/>
+                <IncomeExpense/>
+                <TransactionList/>
+                <AddTransactionButton setShowTransaction={showTransactionHandler} showTransaction={showAddTransaction}/>
+                {showAddTransaction ? <AddTransaction/> : null}
+            </div>
+        </GlobalProvider>
+    );
+};
 
 export default App;
